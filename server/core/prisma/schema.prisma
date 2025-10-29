@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Charger {
+  id              String      @id
+  vendor          String?
+  model           String?
+  firmwareVersion String?
+  serialNumber    String?
+  boxSerialNumber String?
+  lastBootAt      DateTime?
+  lastHeartbeatAt DateTime?
+  connected       Boolean     @default(false)
+
+  connectors      Connector[]
+  transactions    Transaction[]
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Connector {
+  id            Int      @id @default(autoincrement())
+  chargerId     String
+  connectorId   Int
+  status        String
+  errorCode     String?
+  lastStatusAt  DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+
+  charger       Charger  @relation(fields: [chargerId], references: [id])
+
+  @@unique([chargerId, connectorId])
+}
+
+model Transaction {
+  id              Int       @id @default(autoincrement())
+  chargerId       String
+  connectorId     Int
+  idTag           String
+  meterStart      Int
+  meterStop       Int?
+  startTimestamp  DateTime
+  stopTimestamp   DateTime?
+  reason          String?
+  status          String    @default("Active")
+
+  charger         Charger   @relation(fields: [chargerId], references: [id])
+
+  @@index([chargerId])
+}
