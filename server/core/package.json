@@ -4,7 +4,7 @@
   "description": "server connected to main db",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "type": "module",
   "author": "",

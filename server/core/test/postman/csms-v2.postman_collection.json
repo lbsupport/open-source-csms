@@ -1,0 +1,198 @@
+{
+  "info": {
+    "name": "CSMS-v2 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Chargers",
+      "item": [
+        {
+          "name": "List Chargers",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/chargers?page=1&limit=10&sortBy=lastHeartbeatAt&sortOrder=desc&connected=true&vendor=TestVendor&search=test",
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "sortBy", "value": "lastHeartbeatAt" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "connected", "value": "true" },
+                { "key": "vendor", "value": "TestVendor" },
+                { "key": "search", "value": "test" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Charger",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/chargers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"CHARGER001\",\n  \"vendor\": \"TestVendor\",\n  \"model\": \"TestModel\",\n  \"firmwareVersion\": \"1.0.0\",\n  \"serialNumber\": \"SN001\",\n  \"connected\": true\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get Charger",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/chargers/CHARGER001"
+          }
+        },
+        {
+          "name": "Update Charger",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/chargers/CHARGER001",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"connected\": false,\n  \"firmwareVersion\": \"1.0.1\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete Charger",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/chargers/CHARGER001"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Connectors",
+      "item": [
+        {
+          "name": "List Connectors",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/connectors?page=1&limit=10&sortBy=lastStatusAt&sortOrder=desc&status=Available&chargerId=CHARGER001",
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "sortBy", "value": "lastStatusAt" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "status", "value": "Available" },
+                { "key": "chargerId", "value": "CHARGER001" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Connector",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/connectors",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"chargerId\": \"CHARGER001\",\n  \"connectorId\": 1,\n  \"status\": \"Available\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get Connector",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/connectors/1"
+          }
+        },
+        {
+          "name": "Update Connector",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/connectors/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Charging\",\n  \"errorCode\": null\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete Connector",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/connectors/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "List Transactions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/transactions?page=1&limit=10&sortBy=startTimestamp&sortOrder=desc&status=Active&chargerId=CHARGER001&startDate=2024-01-01&endDate=2024-12-31",
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "sortBy", "value": "startTimestamp" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "status", "value": "Active" },
+                { "key": "chargerId", "value": "CHARGER001" },
+                { "key": "startDate", "value": "2024-01-01" },
+                { "key": "endDate", "value": "2024-12-31" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/transactions",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"chargerId\": \"CHARGER001\",\n  \"connectorId\": 1,\n  \"idTag\": \"TAG001\",\n  \"meterStart\": 0,\n  \"startTimestamp\": \"2024-01-15T10:00:00Z\",\n  \"status\": \"Active\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get Transaction",
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/transactions/1"
+          }
+        },
+        {
+          "name": "Update Transaction",
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/transactions/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meterStop\": 100,\n  \"stopTimestamp\": \"2024-01-15T11:00:00Z\",\n  \"status\": \"Finished\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete Transaction",
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/transactions/1"
+          }
+        }
+      ]
+    }
+  ]
+}
