@@ -1,4 +1,7 @@
 import { RPCServer, createRPCError } from "ocpp-rpc";
+import "dotenv/config";
+
+const port = process.env.PORT || 9220;
 
 const server = new RPCServer({
   protocols: ["ocpp1.6"], // server accepts ocpp1.6 subprotocol
@@ -63,6 +66,6 @@ server.on("client", async (client) => {
   });
 });
 
-server.listen(9220).then(() => {
-  console.log("OCPP 1.6 server is listening on port 9220");
+server.listen(port).then(() => {
+  console.log("OCPP 1.6 server is listening on port", port);
 });
